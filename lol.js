@@ -529,3 +529,21 @@ document.querySelector('.hero-cta').addEventListener('click', e => {
   document.getElementById('input-section').scrollIntoView({ behavior: 'smooth' });
 });
 Done
+
+const API_KEY = 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 ;
+
+async function generateWithAI(text) {
+  const res = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${API_KEY}`
+    },
+    body: JSON.stringify({
+      model: "gpt-4o-mini",
+      messages: [{ role: "user", content: text }]
+    })
+  });
+
+  return await res.json();
+}
