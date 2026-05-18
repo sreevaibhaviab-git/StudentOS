@@ -5,7 +5,7 @@ const SAMPLE_NOTES = {
   biology: `The mitochondria is the powerhouse of the cell. It produces ATP (adenosine triphosphate) through a process called cellular respiration.
 This occurs in two main stages: the Krebs cycle (citric acid cycle) and oxidative phosphorylation via the electron transport chain.
 The inner mitochondrial membrane is highly folded into cristae, which increases surface area for ATP synthesis.
-Mitochondria contain their own circular DNA, suggesting they evolved from ancient prokaryotes through endosymbiosis.
+Mitochondria contain their own circular DNA, suggesting they evgenerateBtn.addEventListener('click', async () => {olved from ancient prokaryotes through endosymbiosis.
 The process of chemiosmosis drives the ATP synthase enzyme using a proton gradient across the inner membrane.
 Each glucose molecule can yield up to 38 ATP molecules in total.`,
 
@@ -280,7 +280,33 @@ function simulateLoading(cb) {
 
 // ─── GENERATE ─────────────────────────────────────────────────────────────────
 
-generateBtn.addEventListener('click', () => {
+generateBtn.addEventListener('click', async () => {
+  const text = notesInput.value.trim();
+
+  if (!text) return;
+
+  outputWrapper.classList.remove('hidden');
+  loadingOverlay.style.display = 'flex';
+  outputWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  try {
+    const res = await generateWithAI(text);
+    const aiText = res.choices[0].message.content;
+
+    const data = JSON.parse(aiText);
+
+    currentData = data;
+
+    renderAll();
+    switchTab('summary');
+
+  } catch (err) {
+    console.error(err);
+    alert("AI broke 😭 check console or API response format");
+  }
+
+  loadingOverlay.style.display = 'none';
+}); 
   const text = notesInput.value.trim();
   if (!text) {
     notesInput.style.borderBottom = '2px solid var(--accent-2)';
