@@ -287,7 +287,6 @@ generateBtn.addEventListener('click', async () => {
 
   outputWrapper.classList.remove('hidden');
   loadingOverlay.style.display = 'flex';
-  outputWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
   try {
     const res = await generateWithAI(text);
@@ -299,6 +298,14 @@ generateBtn.addEventListener('click', async () => {
 
     renderAll();
     switchTab('summary');
+
+  } catch (err) {
+    console.error(err);
+    alert("Something broke 😭 check console/API response");
+  }
+
+  loadingOverlay.style.display = 'none';
+});
 
   } catch (err) {
     console.error(err);
