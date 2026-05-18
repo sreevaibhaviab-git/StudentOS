@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study OS — AI-Powered Study Companion</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">Study OS</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="theme-icon" id="themeIcon">☾</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">✦ Your Smart Study Partner</div>
+      <h1 class="hero-title">
+        Study smarter,<br />
+        <em>not harder.</em>
+      </h1>
+      <p class="hero-subtitle">
+        Paste your notes. Instantly get summaries, flashcards, and quizzes — everything you need to ace your next exam.
+      </p>
+      <a href="#input-section" class="hero-cta">Start Studying →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">3×</span><span class="stat-label">Faster Revision</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">Auto</span><span class="stat-label">Flashcards</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">Smart</span><span class="stat-label">Quiz Mode</span></div>
+    </div>
+  </section>
+
+  <!-- INPUT SECTION -->
+  <section class="input-section" id="input-section">
+    <div class="container">
+      <div class="section-label">✦ Input</div>
+      <h2 class="section-title">Paste your notes</h2>
+      <p class="section-sub">Drop in any topic, lecture notes, or textbook content below.</p>
+
+      <div class="input-card">
+        <div class="input-toolbar">
+          <span class="toolbar-dot red"></span>
+          <span class="toolbar-dot yellow"></span>
+          <span class="toolbar-dot green"></span>
+          <span class="toolbar-label">notes.txt</span>
+        </div>
+        <textarea
+          id="notesInput"
+          class="notes-textarea"
+          placeholder="e.g. The mitochondria is the powerhouse of the cell. It produces ATP through oxidative phosphorylation. The process involves the electron transport chain and chemiosmosis..."
+          rows="10"
+        ></textarea>
+        <div class="input-footer">
+          <span class="char-count" id="charCount">0 characters</span>
+          <button class="generate-btn" id="generateBtn">
+            <span class="btn-icon">⚡</span>
+            Generate Study Material
+          </button>
+        </div>
+      </div>
+
+      <!-- SAMPLE TOPICS -->
+      <div class="sample-topics">
+        <span class="sample-label">Try a sample:</span>
+        <button class="sample-btn" data-sample="biology">🧬 Cell Biology</button>
+        <button class="sample-btn" data-sample="history">🏛️ World War II</button>
+        <button class="sample-btn" data-sample="physics">⚛️ Quantum Physics</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTPUT SECTIONS (hidden until generated) -->
+  <div id="outputWrapper" class="output-wrapper hidden">
+
+    <!-- LOADING STATE -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-card">
+        <div class="loading-spinner"></div>
+        <p class="loading-text" id="loadingText">Analysing your notes…</p>
+        <div class="loading-bar"><div class="loading-fill" id="loadingFill"></div></div>
+      </div>
+    </div>
+
+    <!-- TABS NAV -->
+    <section class="tabs-section" id="tabsSection">
+      <div class="container">
+        <div class="tabs-nav">
+          <button class="tab-btn active" data-tab="summary">
+            <span>📋</span> Summary
+          </button>
+          <button class="tab-btn" data-tab="flashcards">
+            <span>🃏</span> Flashcards
+          </button>
+          <button class="tab-btn" data-tab="quiz">
+            <span>🎯</span> Quiz
+          </button>
+        </div>
+
+        <!-- SUMMARY TAB -->
+        <div class="tab-panel active" id="tab-summary">
+          <div class="output-header">
+            <h2 class="output-title">Summary</h2>
+            <button class="copy-btn" data-target="summaryContent">Copy</button>
+          </div>
+          <div class="summary-card" id="summaryContent">
+            <!-- Injected by JS -->
+          </div>
+          <div class="key-points" id="keyPoints">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- FLASHCARDS TAB -->
+        <div class="tab-panel" id="tab-flashcards">
+          <div class="output-header">
+            <h2 class="output-title">Flashcards</h2>
+            <span class="card-counter" id="cardCounter">Card 1 of 4</span>
+          </div>
+          <div class="flashcard-arena">
+            <button class="fc-nav-btn" id="fcPrev">‹</button>
+            <div class="flashcard-stack" id="flashcardStack">
+              <!-- Injected by JS -->
+            </div>
+            <button class="fc-nav-btn" id="fcNext">›</button>
+          </div>
+          <div class="flashcard-dots" id="flashcardDots"></div>
+          <p class="fc-hint">Click card to reveal answer</p>
+        </div>
+
+        <!-- QUIZ TAB -->
+        <div class="tab-panel" id="tab-quiz">
+          <div class="output-header">
+            <h2 class="output-title">Quiz</h2>
+            <div class="quiz-score-badge" id="quizScoreBadge" style="display:none">
+              Score: <span id="quizScore">0</span>/<span id="quizTotal">0</span>
+            </div>
+          </div>
+          <div class="quiz-questions" id="quizQuestions">
+            <!-- Injected by JS -->
+          </div>
+          <button class="submit-quiz-btn" id="submitQuizBtn">Check Answers</button>
+          <div class="quiz-result" id="quizResult" style="display:none"></div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <span class="logo-icon">⬡</span>
+          <span class="logo-text">Study OS</span>
+        </div>
+        <p class="footer-tagline">Built for students who mean business.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
