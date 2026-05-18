@@ -303,7 +303,7 @@ generateBtn.addEventListener('click', () => {
     if (currentSample && STUDY_DATA[currentSample]) {
       currentData = STUDY_DATA[currentSample];
     } else {
-      currentData = generateFromText(text);
+      currentData = await generateWithAI(text);
     }
 
     renderAll();
